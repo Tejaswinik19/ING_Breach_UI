@@ -203,13 +203,24 @@ _helpsCategory(e){
 }
 
 _handlesubmit(){
-  if(this.$.addPetForm.validate()){
+  
     var addPetAjax= this.$.addPetAjax;
     addPetAjax.method='post';
-    let objPet={"name":this.name, "age":this.age,"place":this.place,"status":this.status,"userName":this.userName};
-    addPetAjax.body=objPet;
+    let objPet={"franchies":this.franchiesSelected,
+     "bussness_area":this.ServiceSelected,
+    "identify_by": this.identify_by,
+    "c_full_name":this._identifyBridgeSelected,
+    
+    "reported_to": "Admin",
+    "company_name":"ING",
+    "contact_details":"9576678",
+    "aware_of_breach":"01-14-2019",
+    "breach_date":"01-14-2019"
+    
+    };
+    addPetAjax.body=JSON.stringify(objPet);
     addPetAjax.generateRequest();
-  } 
+  
 }
 
 handleResponse(event){
@@ -218,6 +229,9 @@ handleResponse(event){
  // document.querySelector('pets-peers-app').shadowRoot.querySelector('layoute-page').set('route.path','/mypets');
  alert('saved successsully');
   
+}
+_getUrl() {
+  return baseUrl + "/api/v1/breach/add";
 }
 
   static get template() {
@@ -231,10 +245,10 @@ handleResponse(event){
       </style>
 
       <iron-ajax
-      auto
+     
       id=addPetAjax
       body="objPet"
-      url="http://10.117.214.180:3001/users/rest/addPet"
+      url="[[_getUrl()]]"
       content-type="application/json"
       on-response=handleResponse
       handle-as="json">
@@ -254,7 +268,7 @@ handleResponse(event){
                 </paper-dropdown-menu>
         <div class="clear"></div>
 
-        <paper-dropdown-menu name="privateBanking" label="Private Banking:"  on-iron-select="_RBSISelected">
+        <paper-dropdown-menu name="privateBanking" label="Private Banking:"  on-iron-select="privateBanking">
                     <paper-listbox slot="dropdown-content" class="dropdown-content">
                         <dom-repeat items={{privateBanking}}>
                            <template> <paper-item value={{item.name}}>{{item.name}}</paper-item></template>
