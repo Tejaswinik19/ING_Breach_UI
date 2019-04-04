@@ -14,6 +14,9 @@ import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 
+import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/paper-button/paper-button.js';
+
 
 class Bridgesubmission extends PolymerElement {
 
@@ -138,7 +141,33 @@ class Bridgesubmission extends PolymerElement {
           name: 'No'
       }
     ]
-    }
+    },
+
+    helpsCategory:{
+      type: Array,
+      value: [
+        {
+          name: 'Compromised details'
+      },
+      {
+          name: 'Mail/Statement issues'
+      },
+      {
+        name: 'Loss of device/physical files'
+    },
+
+    {
+      name: '•	Colleague breached the banks Code of Conduct e.g. viewing/amending/deleting accounts without authorisation'
+    },
+    {
+    name: 'Fax sent to an incorrect number'
+    },
+    {
+      name: 'Information found by a third party / member of public because it was left in an insecure place'
+    },
+
+    ]
+    },
         
     }
 }
@@ -166,6 +195,30 @@ _serviceSelected(e) {
   }
 }
 
+_helpsCategory(e){
+  var selectedItem = e.target.selectedItem;
+  if (selectedItem) {
+      this.helpsCategory = selectedItem.value;
+  }
+}
+
+_handlesubmit(){
+  if(this.$.addPetForm.validate()){
+    var addPetAjax= this.$.addPetAjax;
+    addPetAjax.method='post';
+    let objPet={"name":this.name, "age":this.age,"place":this.place,"status":this.status,"userName":this.userName};
+    addPetAjax.body=objPet;
+    addPetAjax.generateRequest();
+  } 
+}
+
+handleResponse(event){
+  console.log(event.detail.response);;
+  var status = event.detail.response.status;
+ // document.querySelector('pets-peers-app').shadowRoot.querySelector('layoute-page').set('route.path','/mypets');
+ alert('saved successsully');
+  
+}
 
   static get template() {
     return html`
@@ -176,7 +229,17 @@ _serviceSelected(e) {
           padding: 10px;
         }
       </style>
-      <script src="/node_modules/web-animations-js/web-animations-next-lite.min.js"></script>
+
+      <iron-ajax
+      auto
+      id=addPetAjax
+      body="objPet"
+      url="http://10.117.214.180:3001/users/rest/addPet"
+      content-type="application/json"
+      on-response=handleResponse
+      handle-as="json">
+      </iron-ajax>
+      
       <div class="card" >
        
         Section 1: About you
@@ -253,8 +316,30 @@ _serviceSelected(e) {
         </dom-repeat>
     </paper-listbox>
 </paper-dropdown-menu>
+
+<paper-dropdown-menu name="helpsCategory" label="helps Category:"  on-iron-select="_helpsCategory">
+    <paper-listbox slot="dropdown-content" class="dropdown-content">
+        <dom-repeat items={{helpsCategory}}>
+           <template> <paper-item value={{item.name}}>{{item.name}}</paper-item></template>
+        </dom-repeat>
+    </paper-listbox>
+</paper-dropdown-menu>
+<div>Has the number been faxed to ask them to destroy the information
+</div>
+<paper-dropdown-menu name="yesNoSelected" label="destroy information:"  on-iron-select="_yesNoSelected">
+    <paper-listbox slot="dropdown-content" class="dropdown-content">
+        <dom-repeat items={{yesNoSelected}}>
+           <template> <paper-item value={{item.name}}>{{item.name}}</paper-item></template>
+        </dom-repeat>
+    </paper-listbox>
+</paper-dropdown-menu>
 </div>
 
+<div> 
+<paper-button class="add-pet-button" raised on-click="_handlesubmit"> Submit Bridge </paper-button>
+</div>
+
+</div>
 
 </div>
 </div>
