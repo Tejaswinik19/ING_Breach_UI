@@ -1,28 +1,17 @@
 {
-  "posts": [
+  
+  "franchise": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
+      "value": "Private Banking"     
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "id": 2,
+      "value": "RBSI"     
+    },
+    {
+      "id": 3,
+      "value": "Services"     
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  },
-  "register": {
-    "name": "aditi kumari",
-    "username": "aditi",
-    "sapId": "134525",
-    "email": "aditi@gmail.com",
-    "primarySkill": "java",
-    "band": "b2",
-    "password": "123"
-  }
+  ] 
 }

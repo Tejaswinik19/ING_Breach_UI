@@ -43,16 +43,16 @@ class Bridgesubmission extends PolymerElement {
           type: Array,
           value: [
               {
-                  name: 'Business Banking'
+                  name: 'Payments'
               },
               {
-                  name: 'Specialist Banking'
+                  name: 'Shared Services'
               } ,
               {
-                name: 'Customer Experience'
+                name: 'CIO Tech'
             },
             {
-              name: 'Branch & Premier'
+              name: 'Innovation & Solutions'
           }                     
           ]
         },
@@ -97,6 +97,48 @@ class Bridgesubmission extends PolymerElement {
     },                 
         ]
     },
+
+    identifyBridge:{
+      type: Array,
+            value: [
+                {
+                    name: 'I identified the breach'
+                },
+                {
+                    name: 'A colleague identified the breach'
+                } ,
+                {
+                  name: 'A company reported it'
+              }                    
+            ]
+    },
+
+    thirdPartySelected:{
+      type: Array,
+      value: [
+        {
+          name: 'Supplier'
+      },
+      {
+          name: 'Another third party'
+      } ,
+      {
+        name: 'Donot know it'
+    }  
+      ]
+    },
+    
+    yesNoSelected:{
+      type: Array,
+      value: [
+        {
+          name: 'Yes'
+      },
+      {
+          name: 'No'
+      }
+    ]
+    }
         
     }
 }
@@ -116,6 +158,14 @@ _RBSISelected (e) {
       this.RBSISelected = selectedItem.value;
   }
 }
+_serviceSelected(e) {
+  //console.log(e.target.selectedItem.textContent)
+  var selectedItem = e.target.selectedItem;
+  if (selectedItem) {
+      this.ServiceSelected = selectedItem.value;
+  }
+}
+
 
   static get template() {
     return html`
@@ -127,9 +177,10 @@ _RBSISelected (e) {
         }
       </style>
       <script src="/node_modules/web-animations-js/web-animations-next-lite.min.js"></script>
-      <div class="card">
-       <div>
+      <div class="card" >
+       
         Section 1: About you
+        <div class="card">
         <div class="clear"></div>
                 <paper-dropdown-menu name="franchiesSelected" label="Your franchise"  on-iron-select="_paymentSelected">
                     <paper-listbox slot="dropdown-content" class="dropdown-content">
@@ -148,7 +199,7 @@ _RBSISelected (e) {
                     </paper-listbox>
         </paper-dropdown-menu>
         <div class="clear"></div>
-        <paper-dropdown-menu name="RBSISelected" label="Private Banking:"  on-iron-select="_RBSISelected">
+        <paper-dropdown-menu name="RBSISelected" label="RBSI:"  on-iron-select="_RBSISelected">
         <paper-listbox slot="dropdown-content" class="dropdown-content">
             <dom-repeat items={{RBSI}}>
                <template> <paper-item value={{item.name}}>{{item.name}}</paper-item></template>
@@ -156,16 +207,57 @@ _RBSISelected (e) {
         </paper-listbox>
     </paper-dropdown-menu>
     <div class="clear"></div>
-
     <paper-dropdown-menu name="ServiceSelected" label="Service Selected:"  on-iron-select="_serviceSelected">
     <paper-listbox slot="dropdown-content" class="dropdown-content">
-        <dom-repeat items={{RBSI}}>
+        <dom-repeat items={{Services}}>
            <template> <paper-item value={{item.name}}>{{item.name}}</paper-item></template>
         </dom-repeat>
     </paper-listbox>
 </paper-dropdown-menu>
-       </div>
-      </div>
+</div>
+<hr/>
+
+<div>Section 2: How did you find out about the breach? </div>
+<hr/>
+<div class="card">
+<paper-dropdown-menu name="identifyBridge" label="Who identified the breach?"  on-iron-select="_identifyBridgeSelected">
+<paper-listbox slot="dropdown-content" class="dropdown-content">
+    <dom-repeat items={{identifyBridge}}>
+       <template> <paper-item value={{item.name}}>{{item.name}}</paper-item></template>
+    </dom-repeat>
+</paper-listbox>
+</paper-dropdown-menu>
+<div class="clear"></div>
+
+
+<paper-dropdown-menu name="thirdPartySelected" label="Service Selected:"  on-iron-select="_thirdPartySelected">
+    <paper-listbox slot="dropdown-content" class="dropdown-content">
+        <dom-repeat items={{thirdPartySelected}}>
+           <template> <paper-item value={{item.name}}>{{item.name}}</paper-item></template>
+        </dom-repeat>
+    </paper-listbox>
+</paper-dropdown-menu>
+</div>
+
+<hr/>
+<div>Section 3: What has happened and to whom? </div>
+<hr/>
+<p>Have we been made aware of this before?</p>
+
+<div class="card">
+
+<paper-dropdown-menu name="yesNoSelected" label="aware about:"  on-iron-select="_yesNoSelected">
+    <paper-listbox slot="dropdown-content" class="dropdown-content">
+        <dom-repeat items={{yesNoSelected}}>
+           <template> <paper-item value={{item.name}}>{{item.name}}</paper-item></template>
+        </dom-repeat>
+    </paper-listbox>
+</paper-dropdown-menu>
+</div>
+
+
+</div>
+</div>
     `;
   }
 }
